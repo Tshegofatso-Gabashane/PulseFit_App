@@ -17,6 +17,7 @@ import retrofit2.Response
 import android.app.AlertDialog
 import android.text.InputType
 import android.widget.LinearLayout
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Diet : AppCompatActivity() {
 
@@ -54,20 +55,36 @@ class Diet : AppCompatActivity() {
         val addMealButton =
             findViewById<Button>(R.id.addMealButton)
 
-        val homeButton =
-            findViewById<Button>(R.id.homeButton)
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+        bottomNav.selectedItemId = R.id.homeButton   // highlight the current tab
 
-        val mapButton =
-            findViewById<Button>(R.id.mapButton)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeButton -> true   // already here, do nothing
 
-        val exerciseButton =
-            findViewById<Button>(R.id.exerciseButton)
-
-        val dietButton =
-            findViewById<Button>(R.id.dietButton)
-
-        val settingsButton =
-            findViewById<Button>(R.id.settingsButton)
+                R.id.mapButton -> {
+                    startActivity(Intent(this, Map::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.exerciseButton -> {
+                    startActivity(Intent(this, Exercises::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.dietButton -> {
+                    startActivity(Intent(this, Diet::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.settingsButton -> {
+                    startActivity(Intent(this, Settings::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                else -> false
+            }
+        }
 
         val breakfastText =
             findViewById<TextView>(R.id.breakfastText)
@@ -312,55 +329,5 @@ class Diet : AppCompatActivity() {
                 .show()
         }
 
-
-        // Navigation
-        homeButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Dashboard::class.java)
-
-            startActivity(intent)
-            finish()
-        }
-
-
-        mapButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Map::class.java)
-
-            startActivity(intent)
-            finish()
-        }
-
-
-        exerciseButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Exercises::class.java)
-
-            startActivity(intent)
-            finish()
-        }
-
-
-        dietButton.setOnClickListener {
-
-            Toast.makeText(
-                this,
-                "You are already on Diet",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-
-        settingsButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Settings::class.java)
-
-            startActivity(intent)
-            finish()
-        }
     }
 }

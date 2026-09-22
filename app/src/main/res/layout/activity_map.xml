@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F7F5FA"
+    android:background="@color/bg"
     tools:context=".Map">
 
     <!-- SCROLLABLE CONTENT -->
@@ -15,239 +15,337 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingStart="20dp"
-            android:paddingTop="24dp"
+            android:paddingTop="28dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="20dp">
+            android:paddingBottom="24dp">
 
             <!-- PAGE TITLE -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Activity Map"
-                android:textColor="#211B2D"
+                android:textColor="@color/text_primary"
                 android:textSize="26sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="4dp"
                 android:text="Search a destination and plan your route"
-                android:textColor="#77717F"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
-
 
             <!-- DESTINATION SEARCH -->
-            <EditText
-                android:id="@+id/destinationInput"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="22dp"
-                android:background="@drawable/card_background"
-                android:hint="Search destination or route"
-                android:inputType="text"
+                android:layout_height="52dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/search_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:singleLine="true"
-                android:textColor="#211B2D"
-                android:textColorHint="#8C8791"
-                android:textSize="14sp" />
+                android:paddingEnd="16dp">
 
-            <Button
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/search"
+                    android:src="@drawable/ic_search"
+                    app:tint="@color/text_muted" />
+
+                <EditText
+                    android:id="@+id/destinationInput"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:background="@null"
+                    android:hint="Search destination or route"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_muted"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <!-- SEARCH ROUTE BUTTON -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/searchRouteButton"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/primary_button_background"
-                android:text="SEARCH ROUTE"
-                android:textColor="#FFFFFF"
+                android:text="Search route"
+                android:textColor="@color/white"
                 android:textSize="14sp"
-                android:textStyle="bold" />
-
+                android:letterSpacing="0.05"
+                android:textStyle="bold"
+                app:backgroundTint="@color/accent"
+                app:cornerRadius="16dp"
+                app:elevation="0dp"
+                app:icon="@drawable/ic_search"
+                app:iconTint="@color/white"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
 
             <!-- MAP TITLE -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="28dp"
                 android:text="YOUR ROUTE"
-                android:textColor="#211B2D"
-                android:textSize="17sp"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <!-- GOOGLE MAP -->
-            <fragment
-                android:id="@+id/googleMap"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <!-- GOOGLE MAP (wrapped in a rounded card) -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="12dp"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/divider"
+                app:strokeWidth="1dp">
 
+                <fragment
+                    android:id="@+id/googleMap"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- ACTIVITY STATS -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="28dp"
                 android:text="ACTIVITY STATS"
-                android:textColor="#211B2D"
-                android:textSize="17sp"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <!-- PACE -->
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
-                    android:layout_height="105dp"
-                    android:layout_marginEnd="4dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/card_background"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginEnd="5dp"
+                    app:cardBackgroundColor="@color/surface"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/divider"
+                    app:strokeWidth="1dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="PACE"
-                        android:textColor="#77717F"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical"
+                        android:padding="14dp">
 
-                    <TextView
-                        android:id="@+id/paceText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center"
-                        android:text="Pace: 05'12'' / km"
-                        android:textColor="#673AB7"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PACE"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="10sp"
+                            android:letterSpacing="0.12"
+                            android:textStyle="bold" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/paceText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="--'--''"
+                            android:textColor="@color/text_primary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="min / km"
+                            android:textColor="@color/text_muted"
+                            android:textSize="10sp" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- DISTANCE -->
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
-                    android:layout_height="105dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/card_background"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    app:cardBackgroundColor="@color/surface"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/divider"
+                    app:strokeWidth="1dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="DISTANCE"
-                        android:textColor="#77717F"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical"
+                        android:padding="14dp">
 
-                    <TextView
-                        android:id="@+id/mapDistanceText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center"
-                        android:text="Distance: 3.40 km"
-                        android:textColor="#673AB7"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DISTANCE"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="10sp"
+                            android:letterSpacing="0.12"
+                            android:textStyle="bold" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/mapDistanceText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0.00"
+                            android:textColor="@color/text_primary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="km"
+                            android:textColor="@color/text_muted"
+                            android:textSize="10sp" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- TIME -->
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
-                    android:layout_height="105dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/card_background"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginStart="5dp"
+                    app:cardBackgroundColor="@color/surface"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/divider"
+                    app:strokeWidth="1dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TIME"
-                        android:textColor="#77717F"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical"
+                        android:padding="14dp">
 
-                    <TextView
-                        android:id="@+id/timeText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center"
-                        android:text="Time: 18:22"
-                        android:textColor="#673AB7"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="TIME"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="10sp"
+                            android:letterSpacing="0.12"
+                            android:textStyle="bold" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/timeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="00:00"
+                            android:textColor="@color/text_primary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="min"
+                            android:textColor="@color/text_muted"
+                            android:textSize="10sp" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
-
 
             <!-- TRACKING -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="28dp"
                 android:text="WORKOUT TRACKING"
-                android:textColor="#211B2D"
-                android:textSize="17sp"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/startTrackingButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="6dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#673AB7"
-                    android:minWidth="0dp"
-                    android:singleLine="true"
-                    android:text="START TRACKING"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:text="Start"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:letterSpacing="0.05"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/accent"
+                    app:cornerRadius="16dp"
+                    app:elevation="0dp"
+                    app:icon="@drawable/ic_play"
+                    app:iconTint="@color/white"
+                    app:iconGravity="textStart"
+                    app:iconPadding="6dp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/stopTrackingButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="6dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#FFFFFF"
-                    android:minWidth="0dp"
-                    android:singleLine="true"
-                    android:text="PAUSE / STOP"
-                    android:textColor="#673AB7"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:text="Pause / Stop"
+                    android:textColor="@color/text_primary"
+                    android:textSize="13sp"
+                    android:letterSpacing="0.02"
+                    android:textStyle="bold"
+                    app:cornerRadius="16dp"
+                    app:icon="@drawable/ic_stop"
+                    app:iconTint="@color/text_primary"
+                    app:iconGravity="textStart"
+                    app:iconPadding="6dp"
+                    app:strokeColor="@color/divider"
+                    app:strokeWidth="1dp" />
 
             </LinearLayout>
 
@@ -255,89 +353,17 @@
 
     </ScrollView>
 
-
-    <!-- FIXED BOTTOM NAVIGATION -->
-    <LinearLayout
+    <!-- BOTTOM NAVIGATION -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/bottom_nav_background"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingStart="4dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="4dp"
-        android:paddingBottom="6dp">
-
-        <Button
-            android:id="@+id/homeButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="HOME"
-            android:textColor="#673AB7"
-            android:textSize="9sp" />
-
-        <Button
-            android:id="@+id/mapButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#673AB7"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="MAP"
-            android:textColor="#FFFFFF"
-            android:textSize="9sp" />
-
-        <Button
-            android:id="@+id/exerciseButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="EXERCISE"
-            android:textColor="#673AB7"
-            android:textSize="8sp" />
-
-        <Button
-            android:id="@+id/dietButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="DIET"
-            android:textColor="#673AB7"
-            android:textSize="9sp" />
-
-        <Button
-            android:id="@+id/settingsButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="SETTINGS"
-            android:textColor="#673AB7"
-            android:textSize="8sp" />
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:background="@color/surface"
+        app:elevation="8dp"
+        app:labelVisibilityMode="labeled"
+        app:itemIconTint="@color/nav_item_tint"
+        app:itemTextColor="@color/nav_item_tint"
+        app:itemActiveIndicatorStyle="@style/SoftNavIndicator"
+        app:menu="@menu/bottom_nav_menu" />
 
 </LinearLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/homeButton"     android:icon="@drawable/ic_home"     android:title="Home" />
+    <item android:id="@+id/mapButton"      android:icon="@drawable/ic_map"      android:title="Map" />
+    <item android:id="@+id/exerciseButton" android:icon="@drawable/ic_dumbbell" android:title="Exercise" />
+    <item android:id="@+id/dietButton"     android:icon="@drawable/ic_restaurant" android:title="Diet" />
+    <item android:id="@+id/settingsButton" android:icon="@drawable/ic_person"   android:title="Settings" />
+</menu>

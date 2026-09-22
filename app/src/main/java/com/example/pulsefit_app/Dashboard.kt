@@ -15,6 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class Dashboard : AppCompatActivity() {
@@ -62,21 +63,36 @@ class Dashboard : AppCompatActivity() {
         val startWorkoutButton =
             findViewById<Button>(R.id.startWorkoutButton)
 
-        val homeButton =
-            findViewById<Button>(R.id.homeButton)
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+        bottomNav.selectedItemId = R.id.homeButton   // highlight the current tab
 
-        val mapButton =
-            findViewById<Button>(R.id.mapButton)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeButton -> true   // already here, do nothing
 
-        val exerciseButton =
-            findViewById<Button>(R.id.exerciseButton)
-
-        val dietButton =
-            findViewById<Button>(R.id.dietButton)
-
-        val settingsButton =
-            findViewById<Button>(R.id.settingsButton)
-
+                R.id.mapButton -> {
+                    startActivity(Intent(this, Map::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.exerciseButton -> {
+                    startActivity(Intent(this, Exercises::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.dietButton -> {
+                    startActivity(Intent(this, Diet::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.settingsButton -> {
+                    startActivity(Intent(this, Settings::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                else -> false
+            }
+        }
 
         // Load user's name from Firestore
         val weatherApiKey = BuildConfig.WEATHER_API_KEY
@@ -199,49 +215,5 @@ class Dashboard : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-        homeButton.setOnClickListener {
-
-            Toast.makeText(
-                this,
-                "You are already on Home",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-
-        mapButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Map::class.java)
-
-            startActivity(intent)
-        }
-
-
-        exerciseButton.setOnClickListener {
-
-            val intent = Intent(this, Exercises::class.java)
-
-            startActivity(intent)
-        }
-
-
-        dietButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Diet::class.java)
-
-            startActivity(intent)
-        }
-
-
-        settingsButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Settings::class.java)
-
-            startActivity(intent)
-        }
     }
 }

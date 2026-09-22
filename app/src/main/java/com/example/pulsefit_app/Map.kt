@@ -18,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Locale
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Map : AppCompatActivity(), OnMapReadyCallback {
 
@@ -81,30 +82,36 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
                 R.id.stopTrackingButton
             )
 
-        val homeButton =
-            findViewById<Button>(
-                R.id.homeButton
-            )
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+        bottomNav.selectedItemId = R.id.homeButton   // highlight the current tab
 
-        val mapButton =
-            findViewById<Button>(
-                R.id.mapButton
-            )
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeButton -> true   // already here, do nothing
 
-        val exerciseButton =
-            findViewById<Button>(
-                R.id.exerciseButton
-            )
-
-        val dietButton =
-            findViewById<Button>(
-                R.id.dietButton
-            )
-
-        val settingsButton =
-            findViewById<Button>(
-                R.id.settingsButton
-            )
+                R.id.mapButton -> {
+                    startActivity(Intent(this, Map::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.exerciseButton -> {
+                    startActivity(Intent(this, Exercises::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.dietButton -> {
+                    startActivity(Intent(this, Diet::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.settingsButton -> {
+                    startActivity(Intent(this, Settings::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                else -> false
+            }
+        }
 
 
         // Search for destination
@@ -170,67 +177,7 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
         }
 
 
-        // Navigation
-        homeButton.setOnClickListener {
 
-            val intent =
-                Intent(
-                    this,
-                    Dashboard::class.java
-                )
-
-            startActivity(intent)
-            finish()
-        }
-
-
-        mapButton.setOnClickListener {
-
-            Toast.makeText(
-                this,
-                "You are already on Map",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-
-        exerciseButton.setOnClickListener {
-
-            val intent =
-                Intent(
-                    this,
-                    Exercises::class.java
-                )
-
-            startActivity(intent)
-            finish()
-        }
-
-
-        dietButton.setOnClickListener {
-
-            val intent =
-                Intent(
-                    this,
-                    Diet::class.java
-                )
-
-            startActivity(intent)
-            finish()
-        }
-
-
-        settingsButton.setOnClickListener {
-
-            val intent =
-                Intent(
-                    this,
-                    Settings::class.java
-                )
-
-            startActivity(intent)
-            finish()
-        }
     }
 
 

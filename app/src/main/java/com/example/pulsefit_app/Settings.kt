@@ -17,6 +17,7 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Settings : AppCompatActivity() {
 
@@ -70,20 +71,36 @@ class Settings : AppCompatActivity() {
             findViewById<Button>(R.id.logoutButton)
 
         // Bottom navigation
-        val homeButton =
-            findViewById<Button>(R.id.homeButton)
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+        bottomNav.selectedItemId = R.id.homeButton   // highlight the current tab
 
-        val mapButton =
-            findViewById<Button>(R.id.mapButton)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeButton -> true   // already here, do nothing
 
-        val exerciseButton =
-            findViewById<Button>(R.id.exerciseButton)
-
-        val dietButton =
-            findViewById<Button>(R.id.dietButton)
-
-        val settingsButton =
-            findViewById<Button>(R.id.settingsButton)
+                R.id.mapButton -> {
+                    startActivity(Intent(this, Map::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.exerciseButton -> {
+                    startActivity(Intent(this, Exercises::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.dietButton -> {
+                    startActivity(Intent(this, Diet::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.settingsButton -> {
+                    startActivity(Intent(this, Settings::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                else -> false
+            }
+        }
 
 
         // Language options
@@ -426,51 +443,5 @@ class Settings : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-        // Bottom navigation
-        homeButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Dashboard::class.java)
-
-            startActivity(intent)
-            finish()
-        }
-
-        mapButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Map::class.java)
-
-            startActivity(intent)
-            finish()
-        }
-
-        exerciseButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Exercises::class.java)
-
-            startActivity(intent)
-            finish()
-        }
-
-        dietButton.setOnClickListener {
-
-            val intent =
-                Intent(this, Diet::class.java)
-
-            startActivity(intent)
-            finish()
-        }
-
-        settingsButton.setOnClickListener {
-
-            Toast.makeText(
-                this,
-                "You are already on Settings",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
     }
 }

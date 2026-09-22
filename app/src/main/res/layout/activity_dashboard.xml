@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F7F5FA"
+    android:background="@color/bg"
     tools:context=".Dashboard">
 
-    <!-- SCROLLABLE DASHBOARD CONTENT -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingStart="20dp"
-            android:paddingTop="24dp"
+            android:paddingTop="28dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="20dp">
+            android:paddingBottom="24dp">
 
-            <!-- GREETING -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,17 +42,18 @@
                         android:id="@+id/greetingText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hello, User!"
-                        android:textColor="#211B2D"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:text="Hello, User"
+                        android:textColor="@color/text_primary"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="4dp"
                         android:text="Ready for today's workout?"
-                        android:textColor="#77717F"
+                        android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -62,254 +62,272 @@
                     android:id="@+id/xpLevelText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/card_background"
-                    android:padding="10dp"
-                    android:text="XP 0 | Level 1"
-                    android:textColor="#673AB7"
+                    android:background="@drawable/pill_background"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="XP 0 · Level 1"
+                    android:textColor="@color/accent"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
-
-            <!-- WEATHER TITLE -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:text="TODAY'S WEATHER"
-                android:textColor="#211B2D"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <!-- WEATHER CARD -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="28dp"
                 android:background="@drawable/card_background"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="WEATHER"
-                    android:textColor="#673AB7"
-                    android:textSize="12sp"
+                    android:text="TODAY'S WEATHER"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.12"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/weatherText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="8dp"
                     android:text="Weather information will appear here"
-                    android:textColor="#29252E"
-                    android:textSize="17sp"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
-
 
             <!-- DAILY ACTIVITY -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="28dp"
                 android:text="DAILY ACTIVITY"
-                android:textColor="#211B2D"
-                android:textSize="17sp"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
-                <!-- DISTANCE CARD -->
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="120dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="130dp"
                     android:layout_marginEnd="6dp"
                     android:layout_weight="1"
                     android:background="@drawable/card_background"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DISTANCE"
-                        android:textColor="#77717F"
-                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.1"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/distanceText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         android:gravity="center"
-                        android:text="Distance: 0 / 5 km"
-                        android:textColor="#673AB7"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:text="0 / 5 km"
+                        android:textColor="@color/text_primary"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
 
                 </LinearLayout>
 
-                <!-- ACTIVE TIME CARD -->
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="120dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="130dp"
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
                     android:background="@drawable/card_background"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ACTIVE TIME"
-                        android:textColor="#77717F"
-                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.1"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/activeTimeText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         android:gravity="center"
-                        android:text="Active Time: 45m"
-                        android:textColor="#673AB7"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:text="45 min"
+                        android:textColor="@color/text_primary"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-
-            <!-- QUICK STATS -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="28dp"
                 android:text="QUICK STATS"
-                android:textColor="#211B2D"
-                android:textSize="17sp"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
-                <!-- CALORIES CARD -->
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="110dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="120dp"
                     android:layout_marginEnd="6dp"
                     android:layout_weight="1"
                     android:background="@drawable/card_background"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="CALORIES"
-                        android:textColor="#77717F"
-                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.1"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/caloriesText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         android:gravity="center"
-                        android:text="Calories: 0 / 500 kcal"
-                        android:textColor="#211B2D"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:text="0 / 500"
+                        android:textColor="@color/text_primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="kcal"
+                        android:textColor="@color/text_muted"
+                        android:textSize="11sp" />
 
                 </LinearLayout>
 
-                <!-- HEART RATE CARD -->
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="110dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="120dp"
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
                     android:background="@drawable/card_background"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="HEART RATE"
-                        android:textColor="#77717F"
-                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.1"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/heartRateText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         android:gravity="center"
-                        android:text="Heart Rate: -- bpm"
-                        android:textColor="#211B2D"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:text="--"
+                        android:textColor="@color/text_primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="bpm"
+                        android:textColor="@color/text_muted"
+                        android:textSize="11sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-
-            <!-- START WORKOUT -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/startWorkoutButton"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/primary_button_background"
-                android:text="START RUN / WORKOUT"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="28dp"
+                android:text="START WORKOUT"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:letterSpacing="0.08"
+                android:textStyle="bold"
+                app:backgroundTint="@color/accent"
+                app:cornerRadius="16dp"
+                app:elevation="0dp" />
 
-
-            <!-- RECENT ACTIVITY -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="28dp"
                 android:text="RECENT ACTIVITY"
-                android:textColor="#211B2D"
-                android:textSize="17sp"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/card_background"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <TextView
                     android:id="@+id/recentActivityText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="No recent activity"
-                    android:textColor="#77717F"
+                    android:textColor="@color/text_secondary"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -318,89 +336,16 @@
 
     </ScrollView>
 
-
-    <!-- FIXED BOTTOM NAVIGATION -->
-    <LinearLayout
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/bottom_nav_background"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingStart="4dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="4dp"
-        android:paddingBottom="6dp">
-
-        <Button
-            android:id="@+id/homeButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#673AB7"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="HOME"
-            android:textColor="#FFFFFF"
-            android:textSize="9sp" />
-
-        <Button
-            android:id="@+id/mapButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="MAP"
-            android:textColor="#673AB7"
-            android:textSize="9sp" />
-
-        <Button
-            android:id="@+id/exerciseButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="EXERCISE"
-            android:textColor="#673AB7"
-            android:textSize="8sp" />
-
-        <Button
-            android:id="@+id/dietButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="DIET"
-            android:textColor="#673AB7"
-            android:textSize="9sp" />
-
-        <Button
-            android:id="@+id/settingsButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="SETTINGS"
-            android:textColor="#673AB7"
-            android:textSize="8sp" />
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:background="@color/surface"
+        app:elevation="8dp"
+        app:labelVisibilityMode="labeled"
+        app:itemIconTint="@color/nav_item_tint"
+        app:itemTextColor="@color/nav_item_tint"
+        app:itemActiveIndicatorStyle="@style/SoftNavIndicator"
+        app:menu="@menu/bottom_nav_menu" />
 
 </LinearLayout>
