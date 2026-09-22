@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "447927429619",
-    "project_id": "pulsefit-app-f739c",
-    "storage_bucket": "pulsefit-app-f739c.firebasestorage.app"
+    "project_number": "76914108889",
+    "project_id": "pulsefit-dc361",
+    "storage_bucket": "pulsefit-dc361.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:447927429619:android:93386c6b88ef663dd34a86",
+        "mobilesdk_app_id": "1:76914108889:android:30fb003b8fe986ccc051c8",
         "android_client_info": {
-          "package_name": "com.example.pulsefit_app"
+          "package_name": "com.pulsefit.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB5q2hlOHt3RiwTVxs46uFn2o0PrpeTPtw"
+          "current_key": "AIzaSyBgLBMsdynQIYK5Z3ASdeEWMvCnvj_9Kos"
         }
       ],
       "services": {
