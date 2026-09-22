@@ -6,7 +6,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -14,18 +13,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.chip.ChipGroup
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Exercises : AppCompatActivity() {
 
     private var allExercises: List<ExerciseData> = emptyList()
 
-    private lateinit var exerciseA: TextView
-    private lateinit var exerciseB: TextView
-    private lateinit var exerciseC: TextView
+    private lateinit var nameViews:   List<TextView>
+    private lateinit var targetViews: List<TextView>
+    private lateinit var metViews:    List<TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,325 +33,146 @@ class Exercises : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_exercises)
 
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.main)
-        ) { v, insets ->
-
-            val systemBars =
-                insets.getInsets(
-                    WindowInsetsCompat.Type.systemBars()
-                )
-
-            v.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
-            )
-
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
         Log.d("PulseFit", "Exercise screen opened")
 
-        val searchInput =
-            findViewById<EditText>(R.id.exerciseSearchInput)
+        val searchInput = findViewById<EditText>(R.id.exerciseSearchInput)
+        val filterGroup = findViewById<ChipGroup>(R.id.filterChipGroup)
+        val bottomNav   = findViewById<BottomNavigationView>(R.id.bottomNav)
 
-        val allButton =
-            findViewById<Button>(R.id.allFilterButton)
+        nameViews = listOf(
+            findViewById(R.id.exerciseA),
+            findViewById(R.id.exerciseB),
+            findViewById(R.id.exerciseC)
+        )
+        targetViews = listOf(
+            findViewById(R.id.exerciseATarget),
+            findViewById(R.id.exerciseBTarget),
+            findViewById(R.id.exerciseCTarget)
+        )
+        metViews = listOf(
+            findViewById(R.id.exerciseAMet),
+            findViewById(R.id.exerciseBMet),
+            findViewById(R.id.exerciseCMet)
+        )
 
-        val cardioButton =
-            findViewById<Button>(R.id.cardioFilterButton)
-
-        val strengthButton =
-            findViewById<Button>(R.id.strengthFilterButton)
-
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
-        bottomNav.selectedItemId = R.id.homeButton   // highlight the current tab
+        bottomNav.selectedItemId = R.id.exerciseButton
 
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.homeButton -> true   // already here, do nothing
+                R.id.exerciseButton -> true   // already here
 
-                R.id.mapButton -> {
-                    startActivity(Intent(this, Map::class.java))
-                    overridePendingTransition(0, 0)
-                    true
-                }
-                R.id.exerciseButton -> {
-                    startActivity(Intent(this, Exercises::class.java))
-                    overridePendingTransition(0, 0)
-                    true
-                }
-                R.id.dietButton -> {
-                    startActivity(Intent(this, Diet::class.java))
-                    overridePendingTransition(0, 0)
-                    true
-                }
-                R.id.settingsButton -> {
-                    startActivity(Intent(this, Settings::class.java))
-                    overridePendingTransition(0, 0)
-                    true
-                }
+                R.id.homeButton     -> navigateTo(Dashboard::class.java)
+                R.id.mapButton      -> navigateTo(Map::class.java)
+                R.id.dietButton     -> navigateTo(Diet::class.java)
+                R.id.settingsButton -> navigateTo(Settings::class.java)
                 else -> false
             }
         }
 
-        exerciseA =
-            findViewById(R.id.exerciseA)
-
-        exerciseB =
-            findViewById(R.id.exerciseB)
-
-        exerciseC =
-            findViewById(R.id.exerciseC)
-
-
-        // Load exercises from PulseFit REST API
         if (!NetworkUtils.isInternetAvailable(this)) {
-
-            Toast.makeText(
-                this,
-                "No internet connection",
-                Toast.LENGTH_SHORT
-            ).show()
-
-            Log.w(
-                "PulseFit",
-                "Exercise API unavailable - no internet"
-            )
-
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
+            Log.w("PulseFit", "Exercise API unavailable - no internet")
         } else {
+            ApiClient.apiService.getExercises().enqueue(object : Callback<List<ExerciseData>> {
 
-            ApiClient.apiService
-                .getExercises()
-                .enqueue(
-                    object : Callback<List<ExerciseData>> {
-
-                        override fun onResponse(
-                            call: Call<List<ExerciseData>>,
-                            response: Response<List<ExerciseData>>
-                        ) {
-
-                            if (response.isSuccessful) {
-
-                                val exercises =
-                                    response.body()
-
-                                if (!exercises.isNullOrEmpty()) {
-
-                                    allExercises = exercises
-
-                                    displayExercises(
-                                        allExercises
-                                    )
-
-                                    Log.d(
-                                        "PulseFitAPI",
-                                        "Exercises loaded: ${exercises.size}"
-                                    )
-
-                                } else {
-
-                                    displayExercises(
-                                        emptyList()
-                                    )
-
-                                    Log.w(
-                                        "PulseFitAPI",
-                                        "No exercises returned"
-                                    )
-                                }
-
-                            } else {
-
-                                Toast.makeText(
-                                    this@Exercises,
-                                    "Unable to load exercises",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                Log.e(
-                                    "PulseFitAPI",
-                                    "API error: ${response.code()}"
-                                )
-                            }
+                override fun onResponse(
+                    call: Call<List<ExerciseData>>,
+                    response: Response<List<ExerciseData>>
+                ) {
+                    if (response.isSuccessful) {
+                        val exercises = response.body()
+                        if (!exercises.isNullOrEmpty()) {
+                            allExercises = exercises
+                            displayExercises(allExercises)
+                            Log.d("PulseFitAPI", "Exercises loaded: ${exercises.size}")
+                        } else {
+                            displayExercises(emptyList())
+                            Log.w("PulseFitAPI", "No exercises returned")
                         }
-
-
-                        override fun onFailure(
-                            call: Call<List<ExerciseData>>,
-                            t: Throwable
-                        ) {
-
-                            Toast.makeText(
-                                this@Exercises,
-                                "Unable to load exercises",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                            Log.e(
-                                "PulseFitAPI",
-                                "Could not connect to REST API",
-                                t
-                            )
-                        }
+                    } else {
+                        Toast.makeText(this@Exercises, "Unable to load exercises", Toast.LENGTH_SHORT).show()
+                        Log.e("PulseFitAPI", "API error: ${response.code()}")
                     }
-                )
+                }
+
+                override fun onFailure(call: Call<List<ExerciseData>>, t: Throwable) {
+                    Toast.makeText(this@Exercises, "Unable to load exercises", Toast.LENGTH_SHORT).show()
+                    Log.e("PulseFitAPI", "Could not connect to REST API", t)
+                }
+            })
         }
 
-
-        // Search by exercise name or muscle group
-        searchInput.addTextChangedListener(
-            object : TextWatcher {
-
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
+        searchInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val search = s.toString().trim()
+                val filtered = allExercises.filter {
+                    it.name.contains(search, ignoreCase = true) ||
+                            it.muscleGroup.contains(search, ignoreCase = true)
                 }
+                displayExercises(filtered)
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
-                override fun onTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    before: Int,
-                    count: Int
-                ) {
-
-                    val search =
-                        s.toString().trim()
-
-                    val filtered =
-                        allExercises.filter {
-
-                            it.name.contains(
-                                search,
-                                ignoreCase = true
-                            ) ||
-                                    it.muscleGroup.contains(
-                                        search,
-                                        ignoreCase = true
-                                    )
-                        }
-
-                    displayExercises(filtered)
+        filterGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            val id = checkedIds.firstOrNull() ?: return@setOnCheckedStateChangeListener
+            when (id) {
+                R.id.allFilterButton -> {
+                    searchInput.text.clear()
+                    displayExercises(allExercises)
+                    Log.d("PulseFit", "All filter selected")
                 }
-
-                override fun afterTextChanged(
-                    s: Editable?
-                ) {
+                R.id.cardioFilterButton -> {
+                    displayExercises(allExercises.filter {
+                        it.category.equals("Cardio", ignoreCase = true)
+                    })
+                    Log.d("PulseFit", "Cardio filter selected")
+                }
+                R.id.strengthFilterButton -> {
+                    displayExercises(allExercises.filter {
+                        it.category.equals("Strength", ignoreCase = true)
+                    })
+                    Log.d("PulseFit", "Strength filter selected")
                 }
             }
-        )
-
-
-        // Show all exercises
-        allButton.setOnClickListener {
-
-            searchInput.text.clear()
-
-            displayExercises(
-                allExercises
-            )
-
-            Log.d(
-                "PulseFit",
-                "All exercise filter selected"
-            )
         }
-
-
-        // Show cardio exercises
-        cardioButton.setOnClickListener {
-
-            val cardioExercises =
-                allExercises.filter {
-
-                    it.category.equals(
-                        "Cardio",
-                        ignoreCase = true
-                    )
-                }
-
-            displayExercises(
-                cardioExercises
-            )
-
-            Log.d(
-                "PulseFit",
-                "Cardio filter selected"
-            )
-        }
-
-
-        // Show strength exercises
-        strengthButton.setOnClickListener {
-
-            val strengthExercises =
-                allExercises.filter {
-
-                    it.category.equals(
-                        "Strength",
-                        ignoreCase = true
-                    )
-                }
-
-            displayExercises(
-                strengthExercises
-            )
-
-            Log.d(
-                "PulseFit",
-                "Strength filter selected"
-            )
-        }
-
-
-
     }
 
+    private fun navigateTo(destination: Class<*>): Boolean {
+        startActivity(Intent(this, destination))
+        overridePendingTransition(0, 0)
+        return true
+    }
 
-    // Display a maximum of three exercises
-    private fun displayExercises(
-        exercises: List<ExerciseData>
-    ) {
+    private fun displayExercises(exercises: List<ExerciseData>) {
 
-        val exerciseViews =
-            listOf(
-                exerciseA,
-                exerciseB,
-                exerciseC
-            )
-
-        exerciseViews.forEach {
-            it.visibility = View.GONE
+        for (i in 0..2) {
+            nameViews[i].visibility   = View.GONE
+            targetViews[i].visibility = View.GONE
+            metViews[i].visibility    = View.GONE
         }
 
+        exercises.take(3).forEachIndexed { index, exercise ->
+            nameViews[index].text = exercise.name
+            nameViews[index].visibility = View.VISIBLE
 
-        exercises
-            .take(3)
-            .forEachIndexed { index, exercise ->
+            targetViews[index].text = exercise.muscleGroup.uppercase()
+            targetViews[index].visibility = View.VISIBLE
 
-                exerciseViews[index].text =
-                    "${exercise.name}\n" +
-                            "Target: ${exercise.muscleGroup}\n" +
-                            "Difficulty: ${exercise.difficulty}\n" +
-                            "Category: ${exercise.category}"
-
-                exerciseViews[index].visibility =
-                    View.VISIBLE
-            }
-
+            metViews[index].text = "MET ${exercise.difficulty}"
+            metViews[index].visibility = View.VISIBLE
+        }
 
         if (exercises.isEmpty()) {
-
-            exerciseA.text =
-                "No exercises found"
-
-            exerciseA.visibility =
-                View.VISIBLE
+            nameViews[0].text = "No exercises found"
+            nameViews[0].visibility = View.VISIBLE
         }
     }
 }
