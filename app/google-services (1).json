@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:76914108889:android:30be223734340a9bc051c8",
+        "android_client_info": {
+          "package_name": "com.example.pulsefit_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgLBMsdynQIYK5Z3ASdeEWMvCnvj_9Kos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:76914108889:android:30fb003b8fe986ccc051c8",
         "android_client_info": {
           "package_name": "com.pulsefit.app"
