@@ -23,6 +23,7 @@ class Exercises : AppCompatActivity() {
 
     private var allExercises: List<ExerciseData> = emptyList()
 
+    // One entry per card (3 cards total)
     private lateinit var nameViews:   List<TextView>
     private lateinit var targetViews: List<TextView>
     private lateinit var metViews:    List<TextView>
@@ -41,6 +42,7 @@ class Exercises : AppCompatActivity() {
 
         Log.d("PulseFit", "Exercise screen opened")
 
+        // ---- Views ----
         val searchInput = findViewById<EditText>(R.id.exerciseSearchInput)
         val filterGroup = findViewById<ChipGroup>(R.id.filterChipGroup)
         val bottomNav   = findViewById<BottomNavigationView>(R.id.bottomNav)
@@ -61,6 +63,7 @@ class Exercises : AppCompatActivity() {
             findViewById(R.id.exerciseCMet)
         )
 
+        // ---- Bottom navigation ----
         bottomNav.selectedItemId = R.id.exerciseButton
 
         bottomNav.setOnItemSelectedListener { item ->
@@ -75,6 +78,7 @@ class Exercises : AppCompatActivity() {
             }
         }
 
+        // ---- API: load exercises ----
         if (!NetworkUtils.isInternetAvailable(this)) {
             Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
             Log.w("PulseFit", "Exercise API unavailable - no internet")
@@ -108,6 +112,7 @@ class Exercises : AppCompatActivity() {
             })
         }
 
+        // ---- Search ----
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -121,6 +126,7 @@ class Exercises : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        // ---- Filter chips ----
         filterGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             val id = checkedIds.firstOrNull() ?: return@setOnCheckedStateChangeListener
             when (id) {
@@ -145,20 +151,31 @@ class Exercises : AppCompatActivity() {
         }
     }
 
+    // ---- Helpers ----
     private fun navigateTo(destination: Class<*>): Boolean {
         startActivity(Intent(this, destination))
         overridePendingTransition(0, 0)
         return true
     }
 
+    /**
+     * Show up to 3 exercises. Each card has:
+     *   - name   (TextView)
+     *   - target (TextView)  ← muscle group, uppercased
+     *   - met    (TextView)  ← "MET x.y" badge
+     *
+     * Any unused card slots get hidden.
+     */
     private fun displayExercises(exercises: List<ExerciseData>) {
 
+        // Hide all 3 cards by default
         for (i in 0..2) {
             nameViews[i].visibility   = View.GONE
             targetViews[i].visibility = View.GONE
             metViews[i].visibility    = View.GONE
         }
 
+        // Show up to 3 results
         exercises.take(3).forEachIndexed { index, exercise ->
             nameViews[index].text = exercise.name
             nameViews[index].visibility = View.VISIBLE
@@ -170,6 +187,7 @@ class Exercises : AppCompatActivity() {
             metViews[index].visibility = View.VISIBLE
         }
 
+        // Empty state — reuse the first name slot to say "No exercises found"
         if (exercises.isEmpty()) {
             nameViews[0].text = "No exercises found"
             nameViews[0].visibility = View.VISIBLE

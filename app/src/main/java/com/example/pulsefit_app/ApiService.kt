@@ -45,14 +45,14 @@ data class WeatherDescription(
 interface ApiService {
 
     // PulseFit exercise endpoint
-    @GET("api/exercises")
+    @GET("exercises")
     fun getExercises(): Call<List<ExerciseData>>
 
     // PulseFit meal endpoint
-    @GET("api/meals")
+    @GET("meals")
     fun getMeals(): Call<List<MealData>>
 
-    @POST("api/meals")
+    @POST("meals")
     fun addMeal(
         @Body meal: AddMealRequest
     ): Call<MealData>
