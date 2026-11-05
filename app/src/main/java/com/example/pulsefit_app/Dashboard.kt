@@ -50,7 +50,12 @@ class Dashboard : AppCompatActivity() {
         }
 
         Log.d("PulseFit", "Dashboard opened")
+        // Push notifications: ask permission (Android 13+) and register this phone with the API
+        PushHelper.requestPermissionIfNeeded(this)
+        PushHelper.registerDevice(this)
 
+        // Upload anything that was saved offline
+        SyncScheduler.requestSync(this)
         val greetingText =
             findViewById<TextView>(R.id.greetingText)
 
@@ -109,7 +114,7 @@ class Dashboard : AppCompatActivity() {
         }
 
         xpLevelText.text =
-            "XP $currentXp | Level $currentLevel"
+            getString(R.string.xp_level, currentXp, currentLevel)
 
         Log.d(
             "PulseFit",
@@ -147,7 +152,7 @@ class Dashboard : AppCompatActivity() {
                     } else {
 
                         weatherText.text =
-                            "Weather unavailable"
+                            getString(R.string.weather_unavailable)
 
                         Log.e(
                             "WeatherAPI",
@@ -162,7 +167,7 @@ class Dashboard : AppCompatActivity() {
                 ) {
 
                     weatherText.text =
-                        "Weather unavailable"
+                        getString(R.string.weather_unavailable)
 
                     Log.e(
                         "WeatherAPI",
@@ -188,7 +193,7 @@ class Dashboard : AppCompatActivity() {
                             document.getString("name")
 
                         greetingText.text =
-                            "Welcome, $name!"
+                            getString(R.string.welcome_user, name ?: "")
 
                         Log.d(
                             "Dashboard",

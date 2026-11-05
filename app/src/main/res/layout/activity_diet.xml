@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Diet"
+                android:text="@string/diet"
                 android:textColor="@color/text_primary"
                 android:textSize="26sp"
                 android:textStyle="bold"
@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Track your meals and daily nutrition"
+                android:text="@string/track_your_meals_and_daily"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
@@ -70,7 +70,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="12dp"
                     android:background="@null"
-                    android:hint="Search food or ingredient"
+                    android:hint="@string/search_food_or_ingredient"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:singleLine="true"
@@ -87,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="10dp"
-                android:text="Scan barcode"
+                android:text="@string/scan_barcode"
                 android:textColor="@color/text_primary"
                 android:textSize="13sp"
                 android:letterSpacing="0.05"
@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="DAILY SUMMARY"
+                android:text="@string/daily_summary"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -121,7 +121,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CALORIC BUDGET"
+                    android:text="@string/caloric_budget"
                     android:textColor="@color/text_secondary"
                     android:textSize="11sp"
                     android:letterSpacing="0.12"
@@ -145,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="12dp"
-                        android:text="Consumed"
+                        android:text="@string/consumed"
                         android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="12dp"
-                        android:text="Burned"
+                        android:text="@string/burned"
                         android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
@@ -230,7 +230,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Remaining"
+                        android:text="@string/remaining"
                         android:textColor="@color/text_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -262,7 +262,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="MEAL LOGS"
+                android:text="@string/meal_logs"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -271,144 +271,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="Today's entries"
+                android:text="@string/todays_entries"
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp" />
 
-            <!-- BREAKFAST -->
-            <LinearLayout
+            <!-- OFFLINE BANNER (shown only when there is no internet) -->
+            <TextView
+                android:id="@+id/offlineBanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/card_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:padding="12dp"
+                android:text="@string/offline_banner"
+                android:textColor="@color/danger"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
-                <View
-                    android:layout_width="4dp"
-                    android:layout_height="32dp"
-                    android:background="@color/accent" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="14dp"
-                    android:text="Breakfast"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/breakfastText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/accent"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-medium" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="kcal"
-                    android:textColor="@color/text_muted"
-                    android:textSize="11sp" />
-
-            </LinearLayout>
-
-            <!-- LUNCH -->
+            <!-- MEAL LIST (rows are added from item_meal.xml) -->
             <LinearLayout
+                android:id="@+id/mealList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/card_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:orientation="vertical" />
 
-                <View
-                    android:layout_width="4dp"
-                    android:layout_height="32dp"
-                    android:background="@color/terracotta" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="14dp"
-                    android:text="Lunch"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/lunchText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/accent"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-medium" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="kcal"
-                    android:textColor="@color/text_muted"
-                    android:textSize="11sp" />
-
-            </LinearLayout>
-
-            <!-- DINNER -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/emptyMealsText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/card_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <View
-                    android:layout_width="4dp"
-                    android:layout_height="32dp"
-                    android:background="@color/accent_dark" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="14dp"
-                    android:text="Dinner"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/dinnerText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/accent"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-medium" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="kcal"
-                    android:textColor="@color/text_muted"
-                    android:textSize="11sp" />
-
-            </LinearLayout>
+                android:layout_marginTop="12dp"
+                android:text="@string/no_meals_yet"
+                android:textColor="@color/text_muted"
+                android:textSize="13sp" />
 
             <!-- ADD MEAL -->
             <com.google.android.material.button.MaterialButton
@@ -417,7 +311,7 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
-                android:text="Add meal"
+                android:text="@string/add_meal"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:letterSpacing="0.05"

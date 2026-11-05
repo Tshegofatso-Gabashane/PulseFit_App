@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -18,8 +19,20 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.DateFormat
+import java.util.Date
+import java.util.concurrent.Executors
 
 class Settings : AppCompatActivity() {
+
+    private val background = Executors.newSingleThreadExecutor()
+
+    private lateinit var pendingText: TextView
+    private lateinit var lastSyncText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +51,14 @@ class Settings : AppCompatActivity() {
         val languageSpinner      = findViewById<Spinner>(R.id.languageSpinner)
         val unitsSpinner         = findViewById<Spinner>(R.id.unitsSpinner)
         val syncSwitch           = findViewById<MaterialSwitch>(R.id.syncSwitch)
+        val notificationsSwitch  = findViewById<MaterialSwitch>(R.id.notificationsSwitch)
+        val testNotification     = findViewById<MaterialButton>(R.id.testNotificationButton)
         val profileDetailsButton = findViewById<MaterialButton>(R.id.profileDetailsButton)
         val manualSyncButton     = findViewById<MaterialButton>(R.id.manualSyncButton)
         val logoutButton         = findViewById<MaterialButton>(R.id.logoutButton)
         val bottomNav            = findViewById<BottomNavigationView>(R.id.bottomNav)
+        pendingText              = findViewById(R.id.pendingText)
+        lastSyncText             = findViewById(R.id.lastSyncText)
 
         bottomNav.selectedItemId = R.id.settingsButton
 
@@ -57,18 +74,35 @@ class Settings : AppCompatActivity() {
             }
         }
 
-        val preferences = getSharedPreferences("PulseFitSettings", MODE_PRIVATE)
+        val preferences = AppPrefs.get(this)
 
-        val languages = arrayOf("English", "isiZulu", "Sesotho")
+        // ---------- Language ----------
         languageSpinner.adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            languages
+            LocaleHelper.names
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
-        val units = arrayOf("Metric (kg/km)", "Imperial (lb/mi)")
+        languageSpinner.setSelection(LocaleHelper.tags.indexOf(LocaleHelper.currentTag(this)))
+
+        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val tag = LocaleHelper.tags[position]
+
+                // Spinner fires once when the screen opens, so only act on a real change
+                if (tag != LocaleHelper.currentTag(this@Settings)) {
+                    LocaleHelper.apply(this@Settings, tag)
+                    PushHelper.createChannel(this@Settings)   // channel name changes language too
+                    Log.d("Settings", "Language changed to $tag")
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        // ---------- Units ----------
+        val units = arrayOf(getString(R.string.units_metric), getString(R.string.units_imperial))
         unitsSpinner.adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -77,41 +111,91 @@ class Settings : AppCompatActivity() {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
-        languageSpinner.setSelection(preferences.getInt("language_position", 0))
-        unitsSpinner.setSelection(preferences.getInt("units_position", 0))
-        syncSwitch.isChecked = preferences.getBoolean("sync_enabled", false)
-
-        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                preferences.edit().putInt("language_position", position).apply()
-                Log.d("Settings", "Language preference saved")
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
+        unitsSpinner.setSelection(preferences.getInt(AppPrefs.KEY_UNITS, 0))
 
         unitsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                preferences.edit().putInt("units_position", position).apply()
+                preferences.edit().putInt(AppPrefs.KEY_UNITS, position).apply()
                 Log.d("Settings", "Unit preference saved")
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
+        // ---------- Offline mode & sync ----------
+        syncSwitch.isChecked = preferences.getBoolean(AppPrefs.KEY_AUTO_SYNC, true)
+
         syncSwitch.setOnCheckedChangeListener { _, isChecked ->
-            preferences.edit().putBoolean("sync_enabled", isChecked).apply()
+            preferences.edit().putBoolean(AppPrefs.KEY_AUTO_SYNC, isChecked).apply()
             Toast.makeText(
                 this,
-                if (isChecked) "Cloud sync enabled" else "Cloud sync disabled",
+                if (isChecked) getString(R.string.auto_sync_enabled) else getString(R.string.auto_sync_disabled),
                 Toast.LENGTH_SHORT
             ).show()
-            Log.d("PulseFit", "Sync preference: $isChecked")
+            Log.d("PulseFit", "Auto-sync preference: $isChecked")
+
+            if (isChecked) SyncScheduler.requestSync(this)
         }
 
+        manualSyncButton.setOnClickListener {
+            if (!NetworkUtils.isInternetAvailable(this)) {
+                Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            manualSyncButton.isEnabled = false
+
+            background.execute {
+                val success = MealRepository(this).sync()
+
+                runOnUiThread {
+                    manualSyncButton.isEnabled = true
+                    Toast.makeText(
+                        this,
+                        if (success) getString(R.string.sync_complete) else getString(R.string.sync_failed),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    refreshSyncStatus()
+                }
+            }
+        }
+
+        // ---------- Push notifications ----------
+        notificationsSwitch.isChecked = preferences.getBoolean(AppPrefs.KEY_PUSH, true)
+
+        notificationsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            PushHelper.setEnabled(this, isChecked)
+            if (isChecked) PushHelper.requestPermissionIfNeeded(this)
+        }
+
+        testNotification.setOnClickListener {
+            if (!NetworkUtils.isInternetAvailable(this)) {
+                Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            PushHelper.requestPermissionIfNeeded(this)
+
+            // The API sends a push to this user's phones; it arrives through Firebase Cloud Messaging
+            ApiClient.apiService.sendTestNotification().enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    val message = if (response.isSuccessful) R.string.test_notification_requested
+                    else R.string.test_notification_failed
+                    Toast.makeText(this@Settings, getString(message), Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.e("PulseFitPush", "Test notification request failed", t)
+                    Toast.makeText(this@Settings, getString(R.string.test_notification_failed), Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+
+        // ---------- Profile ----------
         profileDetailsButton.setOnClickListener {
             val currentUser = FirebaseAuth.getInstance().currentUser
 
             if (currentUser == null) {
-                Toast.makeText(this, "Please log in again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.please_log_in_again), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -121,69 +205,70 @@ class Settings : AppCompatActivity() {
                 .get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        val name   = document.getString("name")  ?: "Not provided"
-                        val email  = document.getString("email") ?: currentUser.email ?: "Not provided"
-                        val weight = document.get("weight")?.toString() ?: "Not provided"
-                        val height = document.get("height")?.toString() ?: "Not provided"
-                        val age    = document.get("age")?.toString()    ?: "Not provided"
-                        val goal   = document.getString("goal")  ?: "Not provided"
+                        val notProvided = getString(R.string.not_provided)
 
-                        val profileMessage = """
-                            Name: $name
-                            Email: $email
-                            Weight: $weight
-                            Height: $height
-                            Age: $age
-                            Goal: $goal
-                        """.trimIndent()
+                        val name   = document.getString("name")  ?: notProvided
+                        val email  = document.getString("email") ?: currentUser.email ?: notProvided
+                        val weight = document.get("weight")?.toString() ?: notProvided
+                        val height = document.get("height")?.toString() ?: notProvided
+                        val age    = document.get("age")?.toString()    ?: notProvided
+                        val goal   = document.getString("goal")  ?: notProvided
 
                         AlertDialog.Builder(this)
-                            .setTitle("Profile Details")
-                            .setMessage(profileMessage)
-                            .setPositiveButton("CLOSE", null)
+                            .setTitle(getString(R.string.profile_details_title))
+                            .setMessage(getString(R.string.profile_details_body, name, email, weight, height, age, goal))
+                            .setPositiveButton(getString(R.string.close), null)
                             .show()
 
                         Log.d("PulseFit", "Profile details loaded")
                     } else {
-                        Toast.makeText(this, "Profile details not found", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.profile_not_found), Toast.LENGTH_SHORT).show()
                         Log.w("PulseFit", "User profile document not found")
                     }
                 }
                 .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Unable to load profile details", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.unable_load_profile), Toast.LENGTH_SHORT).show()
                     Log.e("PulseFit", "Profile details error", exception)
                 }
         }
 
-        manualSyncButton.setOnClickListener {
-            if (!NetworkUtils.isInternetAvailable(this)) {
-                Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            FirebaseFirestore.getInstance()
-                .collection("exercises")
-                .get()
-                .addOnSuccessListener { snapshot ->
-                    Toast.makeText(this, "Cloud connection successful", Toast.LENGTH_SHORT).show()
-                    Log.d("PulseFit", "Cloud check successful: ${snapshot.size()} exercises found")
-                }
-                .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Cloud connection failed", Toast.LENGTH_SHORT).show()
-                    Log.e("PulseFit", "Cloud check failed", exception)
-                }
-        }
-
         logoutButton.setOnClickListener {
+            // Push notifications must stop going to this phone for the old user
+            FirebaseMessaging.getInstance().deleteToken()
+
             FirebaseAuth.getInstance().signOut()
             Log.d("PulseFit", "User logged out")
-            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.logged_out), Toast.LENGTH_SHORT).show()
 
             startActivity(
                 Intent(this, login::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
             )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshSyncStatus()
+    }
+
+    // Shows how many changes are waiting to upload and when we last synced
+    private fun refreshSyncStatus() {
+        background.execute {
+            val pending = MealRepository(this).pendingCount()
+            val lastSync = AppPrefs.get(this).getLong(AppPrefs.KEY_LAST_SYNC, 0L)
+
+            runOnUiThread {
+                val lastSyncLabel = if (lastSync == 0L) {
+                    getString(R.string.never)
+                } else {
+                    DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(lastSync))
+                }
+
+                pendingText.text = getString(R.string.pending_changes, pending)
+                lastSyncText.text = getString(R.string.last_synced, lastSyncLabel)
+            }
         }
     }
 

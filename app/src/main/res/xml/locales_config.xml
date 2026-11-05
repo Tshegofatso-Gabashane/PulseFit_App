@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Languages PulseFit supports (shown in Android 13+ system "App languages" too) -->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en" />
+    <locale android:name="af" />
+    <locale android:name="zu" />
+    <locale android:name="tn" />
+</locale-config>

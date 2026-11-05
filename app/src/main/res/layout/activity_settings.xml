@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Settings"
+                android:text="@string/settings"
                 android:textColor="@color/text_primary"
                 android:textSize="26sp"
                 android:textStyle="bold"
@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Manage your PulseFit preferences"
+                android:text="@string/manage_your_pulsefit_preferences"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="ACCOUNT"
+                android:text="@string/account"
                 android:textColor="@color/text_secondary"
                 android:textSize="11sp"
                 android:letterSpacing="0.12"
@@ -75,7 +75,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Profile"
+                        android:text="@string/profile"
                         android:textColor="@color/text_primary"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -84,7 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="View your saved account and fitness details"
+                        android:text="@string/view_your_saved_account_and"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -94,7 +94,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_marginTop="16dp"
-                        android:text="View profile"
+                        android:text="@string/view_profile"
                         android:textColor="@color/accent"
                         android:textSize="13sp"
                         android:letterSpacing="0.05"
@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="LOCALIZATION"
+                android:text="@string/localization"
                 android:textColor="@color/text_secondary"
                 android:textSize="11sp"
                 android:letterSpacing="0.12"
@@ -137,7 +137,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Language"
+                        android:text="@string/language"
                         android:textColor="@color/text_primary"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -146,7 +146,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="Choose your preferred language"
+                        android:text="@string/choose_your_preferred_language"
                         android:textColor="@color/text_secondary"
                         android:textSize="12sp" />
 
@@ -170,7 +170,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="Units"
+                        android:text="@string/units"
                         android:textColor="@color/text_primary"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -179,7 +179,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="Choose Metric or Imperial"
+                        android:text="@string/choose_metric_or_imperial"
                         android:textColor="@color/text_secondary"
                         android:textSize="12sp" />
 
@@ -194,12 +194,12 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ==================== CLOUD DATA ==================== -->
+            <!-- ==================== OFFLINE & SYNC ==================== -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="CLOUD DATA"
+                android:text="@string/offline_sync_title"
                 android:textColor="@color/text_secondary"
                 android:textSize="11sp"
                 android:letterSpacing="0.12"
@@ -238,7 +238,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Cloud sync"
+                                android:text="@string/auto_sync"
                                 android:textColor="@color/text_primary"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
@@ -247,7 +247,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="3dp"
-                                android:text="Keep your data in sync across devices"
+                                android:text="@string/auto_sync_desc"
                                 android:textColor="@color/text_secondary"
                                 android:textSize="12sp" />
 
@@ -260,6 +260,23 @@
 
                     </LinearLayout>
 
+                    <!-- SYNC STATUS -->
+                    <TextView
+                        android:id="@+id/pendingText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/lastSyncText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
+
                     <!-- MANUAL SYNC -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/manualSyncButton"
@@ -267,7 +284,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_marginTop="20dp"
-                        android:text="Sync now"
+                        android:text="@string/sync_now"
                         android:textColor="@color/accent"
                         android:textSize="13sp"
                         android:letterSpacing="0.05"
@@ -282,12 +299,95 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- ==================== NOTIFICATIONS ==================== -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/notifications_title"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:letterSpacing="0.12"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/divider"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/push_notifications"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/push_notifications_desc"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/notificationsSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/testNotificationButton"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/send_test_notification"
+                        android:textColor="@color/accent"
+                        android:textSize="13sp"
+                        android:letterSpacing="0.05"
+                        android:textStyle="bold"
+                        app:cornerRadius="12dp"
+                        app:strokeColor="@color/accent"
+                        app:strokeWidth="1dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- ==================== SYSTEM ==================== -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="SYSTEM"
+                android:text="@string/system"
                 android:textColor="@color/text_secondary"
                 android:textSize="11sp"
                 android:letterSpacing="0.12"
@@ -314,7 +414,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="App version"
+                        android:text="@string/app_version"
                         android:textColor="@color/text_primary"
                         android:textSize="15sp" />
 
@@ -338,7 +438,7 @@
                 android:layout_height="54dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="16dp"
-                android:text="Log out"
+                android:text="@string/log_out"
                 android:textColor="@color/danger"
                 android:textSize="14sp"
                 android:letterSpacing="0.05"
