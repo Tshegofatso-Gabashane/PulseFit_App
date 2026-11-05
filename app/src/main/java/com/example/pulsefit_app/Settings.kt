@@ -27,6 +27,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.graphics.BitmapFactory
 import okhttp3.ResponseBody
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import com.google.firebase.firestore.FirebaseFirestore
 
 class Settings : AppCompatActivity() {
@@ -109,10 +111,29 @@ class Settings : AppCompatActivity() {
         syncSwitch.isChecked = preferences.getBoolean("sync_enabled", false)
 
         languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                preferences.edit().putInt("language_position", position).apply()
-                Log.d("Settings", "Language preference saved")
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                preferences.edit()
+                    .putInt("language_position", position)
+                    .apply()
+
+                val languageCodes = arrayOf("en", "zu", "st")
+                val selectedLanguage = languageCodes[position]
+
+                val currentLanguage =
+                    AppCompatDelegate.getApplicationLocales().toLanguageTags()
+
+                if (currentLanguage != selectedLanguage) {
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags(selectedLanguage)
+                    )
+                }
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
