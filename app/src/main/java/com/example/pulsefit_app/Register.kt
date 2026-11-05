@@ -58,6 +58,23 @@ class Register : AppCompatActivity() {
         val loginLink =
             findViewById<TextView>(R.id.loginLink)
 
+        val googleButton =
+            findViewById<Button>(R.id.googleButton)
+
+        googleButton.setOnClickListener {
+            GoogleSignInHelper.signIn(this) { success ->
+                if (success) {
+                    startActivity(Intent(this, Dashboard::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.google_sign_in_failed),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
 
         // Register new user
         registerButton.setOnClickListener {
@@ -99,7 +116,7 @@ class Register : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Please complete all required fields",
+                    getString(R.string.complete_required_fields),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -107,7 +124,7 @@ class Register : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Passwords do not match",
+                    getString(R.string.passwords_not_match),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -115,7 +132,7 @@ class Register : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Please accept the Terms & Privacy Policy",
+                    getString(R.string.accept_terms_toast),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -164,7 +181,7 @@ class Register : AppCompatActivity() {
 
                                     Toast.makeText(
                                         this,
-                                        "Registration successful",
+                                        getString(R.string.registration_successful),
                                         Toast.LENGTH_SHORT
                                     ).show()
 
@@ -191,7 +208,7 @@ class Register : AppCompatActivity() {
 
                                     Toast.makeText(
                                         this,
-                                        "Profile could not be saved: ${error.message}",
+                                        getString(R.string.profile_not_saved, error.message ?: ""),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
@@ -200,7 +217,7 @@ class Register : AppCompatActivity() {
 
                             Toast.makeText(
                                 this,
-                                "Unable to create user profile",
+                                getString(R.string.unable_create_profile),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -215,7 +232,7 @@ class Register : AppCompatActivity() {
 
                         Toast.makeText(
                             this,
-                            "Registration failed: ${task.exception?.message}",
+                            getString(R.string.registration_failed, task.exception?.message ?: ""),
                             Toast.LENGTH_LONG
                         ).show()
                     }

@@ -126,7 +126,7 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
 
                 Toast.makeText(
                     this,
-                    "Enter a destination",
+                    getString(R.string.enter_destination),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -134,7 +134,7 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
 
                 Toast.makeText(
                     this,
-                    "Map is still loading",
+                    getString(R.string.map_loading),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -150,7 +150,7 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
 
             Toast.makeText(
                 this,
-                "Tracking started",
+                getString(R.string.tracking_started),
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -166,7 +166,7 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
 
             Toast.makeText(
                 this,
-                "Tracking paused/stopped",
+                getString(R.string.tracking_stopped),
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -264,7 +264,7 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
 
                 Toast.makeText(
                     this,
-                    "Destination found",
+                    getString(R.string.destination_found),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -277,7 +277,7 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
 
                 Toast.makeText(
                     this,
-                    "Destination not found",
+                    getString(R.string.destination_not_found),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -297,7 +297,7 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
 
             Toast.makeText(
                 this,
-                "Unable to search destination",
+                getString(R.string.unable_search_destination),
                 Toast.LENGTH_SHORT
             ).show()
         }

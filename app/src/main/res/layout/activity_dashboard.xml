@@ -52,7 +52,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Ready for today's workout?"
+                        android:text="@string/ready_for_todays_workout"
                         android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
@@ -85,7 +85,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TODAY'S WEATHER"
+                    android:text="@string/todays_weather"
                     android:textColor="@color/text_secondary"
                     android:textSize="11sp"
                     android:letterSpacing="0.12"
@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Weather information will appear here"
+                    android:text="@string/weather_information_will_appear_here"
                     android:textColor="@color/text_primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="DAILY ACTIVITY"
+                android:text="@string/daily_activity"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -133,7 +133,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="DISTANCE"
+                        android:text="@string/distance"
                         android:textColor="@color/text_secondary"
                         android:textSize="11sp"
                         android:letterSpacing="0.1"
@@ -167,7 +167,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ACTIVE TIME"
+                        android:text="@string/active_time"
                         android:textColor="@color/text_secondary"
                         android:textSize="11sp"
                         android:letterSpacing="0.1"
@@ -193,7 +193,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="QUICK STATS"
+                android:text="@string/quick_stats"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -218,7 +218,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CALORIES"
+                        android:text="@string/calories"
                         android:textColor="@color/text_secondary"
                         android:textSize="11sp"
                         android:letterSpacing="0.1"
@@ -260,7 +260,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="HEART RATE"
+                        android:text="@string/heart_rate"
                         android:textColor="@color/text_secondary"
                         android:textSize="11sp"
                         android:letterSpacing="0.1"
@@ -295,7 +295,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
                 android:layout_marginTop="28dp"
-                android:text="START WORKOUT"
+                android:text="@string/start_workout"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:letterSpacing="0.08"
@@ -308,7 +308,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="RECENT ACTIVITY"
+                android:text="@string/recent_activity"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -326,7 +326,7 @@
                     android:id="@+id/recentActivityText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No recent activity"
+                    android:text="@string/no_recent_activity"
                     android:textColor="@color/text_secondary"
                     android:textSize="15sp" />
 

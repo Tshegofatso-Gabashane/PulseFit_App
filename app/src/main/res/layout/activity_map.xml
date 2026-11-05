@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Activity Map"
+                android:text="@string/activity_map"
                 android:textColor="@color/text_primary"
                 android:textSize="26sp"
                 android:textStyle="bold"
@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Search a destination and plan your route"
+                android:text="@string/search_a_destination_and_plan"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
@@ -70,7 +70,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="12dp"
                     android:background="@null"
-                    android:hint="Search destination or route"
+                    android:hint="@string/search_destination_or_route"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:singleLine="true"
@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="10dp"
-                android:text="Search route"
+                android:text="@string/search_route"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:letterSpacing="0.05"
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="YOUR ROUTE"
+                android:text="@string/your_route"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -133,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="ACTIVITY STATS"
+                android:text="@string/activity_stats"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -165,7 +165,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="PACE"
+                            android:text="@string/pace"
                             android:textColor="@color/text_secondary"
                             android:textSize="10sp"
                             android:letterSpacing="0.12"
@@ -214,7 +214,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="DISTANCE"
+                            android:text="@string/distance"
                             android:textColor="@color/text_secondary"
                             android:textSize="10sp"
                             android:letterSpacing="0.12"
@@ -262,7 +262,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="TIME"
+                            android:text="@string/time"
                             android:textColor="@color/text_secondary"
                             android:textSize="10sp"
                             android:letterSpacing="0.12"
@@ -296,7 +296,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="WORKOUT TRACKING"
+                android:text="@string/workout_tracking"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -314,7 +314,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="6dp"
                     android:layout_weight="1"
-                    android:text="Start"
+                    android:text="@string/start"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:letterSpacing="0.05"
@@ -334,7 +334,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
-                    android:text="Pause / Stop"
+                    android:text="@string/pause_stop"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp"
                     android:letterSpacing="0.02"

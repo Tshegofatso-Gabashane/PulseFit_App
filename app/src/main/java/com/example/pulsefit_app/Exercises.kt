@@ -80,7 +80,7 @@ class Exercises : AppCompatActivity() {
 
         // ---- API: load exercises ----
         if (!NetworkUtils.isInternetAvailable(this)) {
-            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
             Log.w("PulseFit", "Exercise API unavailable - no internet")
         } else {
             ApiClient.apiService.getExercises().enqueue(object : Callback<List<ExerciseData>> {
@@ -100,13 +100,13 @@ class Exercises : AppCompatActivity() {
                             Log.w("PulseFitAPI", "No exercises returned")
                         }
                     } else {
-                        Toast.makeText(this@Exercises, "Unable to load exercises", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@Exercises, getString(R.string.unable_load_exercises), Toast.LENGTH_SHORT).show()
                         Log.e("PulseFitAPI", "API error: ${response.code()}")
                     }
                 }
 
                 override fun onFailure(call: Call<List<ExerciseData>>, t: Throwable) {
-                    Toast.makeText(this@Exercises, "Unable to load exercises", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@Exercises, getString(R.string.unable_load_exercises), Toast.LENGTH_SHORT).show()
                     Log.e("PulseFitAPI", "Could not connect to REST API", t)
                 }
             })
@@ -189,7 +189,7 @@ class Exercises : AppCompatActivity() {
 
         // Empty state — reuse the first name slot to say "No exercises found"
         if (exercises.isEmpty()) {
-            nameViews[0].text = "No exercises found"
+            nameViews[0].text = getString(R.string.no_exercises_found)
             nameViews[0].visibility = View.VISIBLE
         }
     }

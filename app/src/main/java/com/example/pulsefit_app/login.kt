@@ -1,6 +1,7 @@
 package com.example.pulsefit_app
 
 import android.os.Bundle
+import android.os.CancellationSignal
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -8,7 +9,19 @@ import android.widget.Toast
 import android.content.Intent
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.core.content.ContextCompat
+import androidx.credentials.Credential
+import androidx.credentials.CredentialManager
+import androidx.credentials.CredentialManagerCallback
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.GetCredentialException
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -44,7 +57,7 @@ class login : AppCompatActivity() {
 
             if (email.isEmpty() || password.isEmpty()) {
 
-                Toast.makeText(this, "Please enter your email and password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.enter_email_password), Toast.LENGTH_SHORT).show()
 
             } else {
 
@@ -57,15 +70,11 @@ class login : AppCompatActivity() {
 
                             Toast.makeText(
                                 this,
-                                "Login successful",
+                                getString(R.string.login_successful),
                                 Toast.LENGTH_SHORT
                             ).show()
 
-                            val intent =
-                                Intent(this, Dashboard::class.java)
-
-                            startActivity(intent)
-                            finish()
+                            goToDashboard()
 
                         }
                         else {
@@ -78,18 +87,24 @@ class login : AppCompatActivity() {
 
                             Toast.makeText(
                                 this,
-                                "Login failed: ${task.exception?.message}",
+                                getString(R.string.login_failed, task.exception?.message ?: ""),
                                 Toast.LENGTH_LONG
                             ).show()
                         }
-                        }
+                    }
             }
         }
 
 
+        // Single sign-on with a Google account
         googleSignInButton.setOnClickListener {
-
-            Toast.makeText(this, "Google Sign-In will be connected later", Toast.LENGTH_SHORT).show()
+            GoogleSignInHelper.signIn(this) { success ->
+                if (success) {
+                    goToDashboard()
+                } else {
+                    Toast.makeText(this, getString(R.string.google_sign_in_failed), Toast.LENGTH_LONG).show()
+                }
+            }
         }
 
         forgotPasswordLink.setOnClickListener {
@@ -100,7 +115,7 @@ class login : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Enter your email address first",
+                    getString(R.string.enter_email_first),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -118,7 +133,7 @@ class login : AppCompatActivity() {
 
                             Toast.makeText(
                                 this,
-                                "Password reset email sent",
+                                getString(R.string.reset_email_sent),
                                 Toast.LENGTH_LONG
                             ).show()
 
@@ -132,7 +147,7 @@ class login : AppCompatActivity() {
 
                             Toast.makeText(
                                 this,
-                                "Unable to send reset email",
+                                getString(R.string.reset_email_failed),
                                 Toast.LENGTH_LONG
                             ).show()
                         }
@@ -146,5 +161,13 @@ class login : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+
+
+
+    private fun goToDashboard() {
+        startActivity(Intent(this, Dashboard::class.java))
+        finish()
     }
 }
