@@ -94,8 +94,10 @@ class PulseFitUnitTest {
 
         val meal =
             AddMealRequest(
+                id = "meal001",
                 name = "Chicken Salad",
-                calories = 350
+                calories = 350,
+                createdAt = System.currentTimeMillis()
             )
 
         assertEquals(

@@ -10,7 +10,6 @@
     android:background="@color/bg"
     tools:context=".Exercises">
 
-    <!-- SCROLLABLE CONTENT -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -27,11 +26,10 @@
             android:paddingEnd="20dp"
             android:paddingBottom="24dp">
 
-            <!-- PAGE TITLE -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Exercises"
+                android:text="@string/exercises"
                 android:textColor="@color/text_primary"
                 android:textSize="26sp"
                 android:textStyle="bold"
@@ -41,11 +39,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Find the right exercise for your workout"
+                android:text="@string/exercises_subtitle"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
-            <!-- SEARCH -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
@@ -70,7 +67,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="12dp"
                     android:background="@null"
-                    android:hint="Search exercises or muscle groups"
+                    android:hint="@string/search_exercises_hint"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:singleLine="true"
@@ -80,18 +77,16 @@
 
             </LinearLayout>
 
-            <!-- FILTER TITLE -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="FILTER"
+                android:text="@string/filter"
                 android:textColor="@color/text_secondary"
                 android:textSize="11sp"
                 android:letterSpacing="0.12"
                 android:textStyle="bold" />
 
-            <!-- FILTER CHIPS -->
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/filterChipGroup"
                 android:layout_width="match_parent"
@@ -107,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="All"
+                    android:text="@string/all"
                     android:textColor="@color/chip_text_color"
                     app:chipBackgroundColor="@color/chip_background_color"
                     app:chipStrokeColor="@color/chip_stroke_color"
@@ -118,7 +113,7 @@
                     style="@style/Widget.Material3.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cardio"
+                    android:text="@string/cardio"
                     android:textColor="@color/chip_text_color"
                     app:chipBackgroundColor="@color/chip_background_color"
                     app:chipStrokeColor="@color/chip_stroke_color"
@@ -129,7 +124,7 @@
                     style="@style/Widget.Material3.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Strength"
+                    android:text="@string/strength"
                     android:textColor="@color/chip_text_color"
                     app:chipBackgroundColor="@color/chip_background_color"
                     app:chipStrokeColor="@color/chip_stroke_color"
@@ -137,17 +132,15 @@
 
             </com.google.android.material.chip.ChipGroup>
 
-            <!-- EXERCISE LIST TITLE -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="EXERCISES"
+                android:text="@string/exercises"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <!-- EXERCISE CARD 1 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -215,7 +208,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- EXERCISE CARD 2 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -283,7 +275,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- EXERCISE CARD 3 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -353,10 +344,8 @@
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
-
     </ScrollView>
 
-    <!-- BOTTOM NAVIGATION -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"

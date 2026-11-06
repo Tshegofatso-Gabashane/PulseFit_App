@@ -7,6 +7,11 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.POST
 import retrofit2.http.Path
+import okhttp3.MultipartBody
+import okhttp3.ResponseBody
+import retrofit2.http.Header
+import retrofit2.http.Multipart
+import retrofit2.http.Part
 
 // Exercise data received from PulseFit REST API
 data class ExerciseData(
@@ -57,6 +62,20 @@ data class WeatherDescription(
 
 interface ApiService {
 
+    // Upload profile image to Azure Blob Storage
+    @Multipart
+    @POST("api/uploads/image")
+    fun uploadProfileImage(
+        @Header("Authorization") token: String,
+        @Part image: MultipartBody.Part
+    ): Call<ImageUploadResponse>
+
+    // Retrieve profile image
+    @GET("api/profile/image")
+    fun getProfileImage(
+        @Header("Authorization") token: String
+    ): Call<ResponseBody>
+
     // PulseFit exercise endpoint
     @GET("exercises")
     fun getExercises(): Call<List<ExerciseData>>
@@ -92,3 +111,8 @@ interface ApiService {
         @Query("units") units: String = "metric"
     ): Call<WeatherResponse>
 }
+
+data class ImageUploadResponse(
+    val message: String,
+    val blobName: String
+)

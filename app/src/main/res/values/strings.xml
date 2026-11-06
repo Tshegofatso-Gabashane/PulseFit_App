@@ -166,4 +166,36 @@
     <string name="notif_budget_title">Calorie budget reached</string>
     <string name="notif_budget_body">You\'ve logged %1$d of %2$d kcal today.</string>
     <string name="notif_test_body">Push notifications are working!</string>
+    <!-- Missing default English strings -->
+    <string name="breakfast">Breakfast</string>
+    <string name="change_profile_picture">Change profile picture</string>
+    <string name="choose_language">Choose language</string>
+    <string name="choose_profile_picture">Choose profile picture</string>
+    <string name="choose_units">Choose units</string>
+    <string name="cloud_data">Cloud data</string>
+    <string name="cloud_sync">Cloud sync</string>
+    <string name="diet_subtitle">Track your meals and daily nutrition</string>
+    <string name="dinner">Dinner</string>
+    <string name="email">Email</string>
+    <string name="exercises_subtitle">Find the right exercise for your workout</string>
+    <string name="goal">Goal</string>
+    <string name="hello_user">Hello, %1$s!</string>
+    <string name="kcal">kcal</string>
+    <string name="keep_data_synced">Keep your data synced</string>
+    <string name="logout">Log out</string>
+    <string name="lunch">Lunch</string>
+    <string name="manual_sync">Manual sync</string>
+    <string name="map_subtitle">Search a destination and plan your route</string>
+    <string name="min_per_km">min/km</string>
+    <string name="name">Name</string>
+    <string name="profile_details">Profile details</string>
+    <string name="profile_picture_description">Profile picture</string>
+    <string name="profile_summary">Profile summary</string>
+    <string name="search_destination_hint">Search destination or route</string>
+    <string name="search_exercises_hint">Search exercises or muscle groups</string>
+    <string name="search_food_hint">Search food or ingredient</string>
+    <string name="settings_subtitle">Manage your PulseFit preferences</string>
+    <string name="today_weather">Today\'s weather</string>
+    <string name="weather_placeholder">Weather information will appear here</string>
+    <string name="workout_prompt">Ready for today\'s workout?</string>
 </resources>

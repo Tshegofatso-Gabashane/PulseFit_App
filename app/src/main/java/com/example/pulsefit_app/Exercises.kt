@@ -151,6 +151,8 @@ class Exercises : AppCompatActivity() {
         }
     }
 
+
+
     // ---- Helpers ----
     private fun navigateTo(destination: Class<*>): Boolean {
         startActivity(Intent(this, destination))

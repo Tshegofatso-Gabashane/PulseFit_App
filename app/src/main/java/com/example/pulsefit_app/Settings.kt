@@ -26,8 +26,25 @@ import retrofit2.Response
 import java.text.DateFormat
 import java.util.Date
 import java.util.concurrent.Executors
+import androidx.activity.result.contract.ActivityResultContracts
+import android.net.Uri
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import android.graphics.BitmapFactory
+import okhttp3.ResponseBody
 
 class Settings : AppCompatActivity() {
+
+    private val imagePicker =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            if (uri != null) {
+                findViewById<android.widget.ImageView>(R.id.profileImage)
+                    .setImageURI(uri)
+
+                uploadProfileImage(uri)
+            }
+        }
 
     private val background = Executors.newSingleThreadExecutor()
 
@@ -40,6 +57,8 @@ class Settings : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_settings)
 
+        loadProfileImage()
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -47,6 +66,13 @@ class Settings : AppCompatActivity() {
         }
 
         Log.d("PulseFit", "Settings screen opened")
+
+        val chooseProfilePictureButton =
+            findViewById<MaterialButton>(R.id.chooseProfilePictureButton)
+
+        chooseProfilePictureButton.setOnClickListener {
+            imagePicker.launch("image/*")
+        }
 
         val languageSpinner      = findViewById<Spinner>(R.id.languageSpinner)
         val unitsSpinner         = findViewById<Spinner>(R.id.unitsSpinner)
@@ -269,6 +295,122 @@ class Settings : AppCompatActivity() {
                 pendingText.text = getString(R.string.pending_changes, pending)
                 lastSyncText.text = getString(R.string.last_synced, lastSyncLabel)
             }
+        }
+    }
+
+    private fun loadProfileImage() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser == null) return
+
+        currentUser.getIdToken(false)
+            .addOnSuccessListener { tokenResult ->
+                val token = tokenResult.token ?: return@addOnSuccessListener
+
+                ApiClient.apiService.getProfileImage("Bearer $token")
+                    .enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(
+                            call: Call<ResponseBody>,
+                            response: Response<ResponseBody>
+                        ) {
+                            if (response.isSuccessful) {
+                                val imageBytes = response.body()?.bytes()
+                                if (imageBytes != null) {
+                                    val bitmap = BitmapFactory.decodeByteArray(
+                                        imageBytes, 0, imageBytes.size
+                                    )
+                                    findViewById<android.widget.ImageView>(
+                                        R.id.profileImage
+                                    ).setImageBitmap(bitmap)
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Log.e("ProfileImage", "Image loading failed", t)
+                        }
+                    })
+            }
+            .addOnFailureListener {
+                Log.e("ProfileImage", "Could not verify account", it)
+            }
+    }
+
+    private fun uploadProfileImage(uri: Uri) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+
+        if (currentUser == null) {
+            Toast.makeText(this, "Please sign in first.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        try {
+            val mimeType = contentResolver.getType(uri) ?: "image/jpeg"
+
+            val imageBytes = contentResolver.openInputStream(uri)?.use {
+                it.readBytes()
+            }
+
+            if (imageBytes == null) {
+                Toast.makeText(this, "Unable to read image.", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            val requestBody = imageBytes.toRequestBody(mimeType.toMediaType())
+
+            val imagePart = MultipartBody.Part.createFormData(
+                "image", "profile_image", requestBody
+            )
+
+            currentUser.getIdToken(false)
+                .addOnSuccessListener { tokenResult ->
+                    val token = tokenResult.token
+
+                    if (token == null) {
+                        Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                        return@addOnSuccessListener
+                    }
+
+                    ApiClient.apiService.uploadProfileImage(
+                        "Bearer $token", imagePart
+                    ).enqueue(object : Callback<ImageUploadResponse> {
+
+                        override fun onResponse(
+                            call: Call<ImageUploadResponse>,
+                            response: Response<ImageUploadResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(
+                                    this@Settings,
+                                    "Profile image uploaded successfully!",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    this@Settings,
+                                    "Upload failed: ${response.code()}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<ImageUploadResponse>,
+                            t: Throwable
+                        ) {
+                            Toast.makeText(
+                                this@Settings,
+                                "Upload error: ${t.message}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    })
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Could not verify your account.", Toast.LENGTH_SHORT).show()
+                }
+
+        } catch (e: Exception) {
+            Toast.makeText(this, "Image error: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
